@@ -1,0 +1,42 @@
+#!/bin/bash
+
+echo "===== FILE DESCRIPTORS (System-wide) ====="
+awk '{print "Used: "$1"\nMax: "$3}' /proc/sys/fs/file-nr
+
+echo -e "\n===== FILE DESCRIPTORS (Current User) ====="
+echo "Soft limit: $(ulimit -n)"
+echo "Hard limit: $(ulimit -Hn)"
+
+echo -e "\n===== PROCESSES (Current User) ====="
+USER_PROCS=$(ps -u $(whoami) --no-headers | wc -l)
+echo "Used: $USER_PROCS"
+echo "Soft limit: $(ulimit -u)"
+echo "Hard limit: $(ulimit -Hu)"
+
+echo -e "\n===== THREADS (System-wide) ====="
+THREADS=$(ps -eLf | wc -l)
+THREADS_MAX=$(cat /proc/sys/kernel/threads-max)
+echo "Used: $THREADS"
+echo "Max: $THREADS_MAX"
+
+echo -e "\n===== MEMORY ====="
+free -h
+
+echo -e "\n===== VIRTUAL MEMORY LIMIT (Current Shell) ====="
+ulimit -v
+
+#echo -e "\n===== INODES (Filesystem) ====="
+# df -i
+
+echo -e "\n===== NETWORK CONNECTIONS (Sockets Summary) ====="
+ss -s
+
+echo -e "\n===== CPU STATS ====="
+echo "Load Average (1/5/15 min):"
+uptime | awk -F'load average:' '{ print $2 }'
+
+#echo -e "\nPer-core CPU Usage:"
+#mpstat -P ALL 1 1 | grep -v "Average" | grep -v "CPU"
+
+echo -e "\nTop 10 CPU-consuming processes:"
+ps -eo pid,ppid,cmd,%mem,%cpu --sort=-%cpu | head -n 10

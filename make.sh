@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # List of applications to build and install
-apps=("dwm" "st" "slstatus" "dmenu" "slock")
+apps=("dwm" "slstatus" "dmenu" "slock")
 
 # Function to show usage
 show_usage() {

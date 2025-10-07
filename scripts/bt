@@ -1,0 +1,55 @@
+#!/bin/bash
+
+d1="84:0F:2A:FE:7D:E2"
+
+usage() {
+    echo "Usage: $0 [-c | -d | -h]"
+    echo "  -c    Connect to the Bluetooth device"
+    echo "  -d    Disconnect from the Bluetooth device"
+    echo "  -h    Display this help message"
+    exit 1
+}
+
+connect() {
+    echo "Connecting to device $d1..."
+    bluetoothctl connect "$d1"
+}
+
+disconnect() {
+    echo "Disconnecting from device $d1..."
+    bluetoothctl disconnect "$d1"
+}
+
+reconnect() {
+	disconnect
+	disconnect
+	connect
+}
+
+d_status() {
+    bluetoothctl info "$d1" | grep -i "Connected" | awk '{print $2}'
+}
+
+while getopts "cdhsr" opt; do
+    case $opt in
+        c)
+            connect
+            ;;
+        d)
+            disconnect
+            ;;
+        s)
+            d_status
+            ;;
+        r)
+			reconnect
+            ;;
+        h|*)
+            usage
+            ;;
+    esac
+done
+
+if [ $OPTIND -eq 1 ]; then
+    reconnect
+fi

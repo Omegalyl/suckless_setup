@@ -33,7 +33,6 @@ static const Rule rules[] = {
 	 */
 	/* class        instance    title       tags mask     isfloating   monitor */
 	{ "firefox",    NULL,       NULL,       0,	      	  0,	  -1 },
-	{ "Code",		NULL,       "migration-tool.code-workspace - workspace - Visual Studio Code",1 << 1,	      0,	  -1 },
 	{ "work-term",  NULL,       NULL,       1 << 2,	      0,	   1 },
 	{ "Gimp",       NULL,       NULL,       1 << 3,       0,	  -1 },
 	{ "easyeffects",NULL,       NULL,       1 << 5,       0,	  -1 },
@@ -67,7 +66,7 @@ static const Layout layouts[] = {
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL };
-static const char *termcmd[]  = { "st", NULL };
+static const char *termcmd[]  = { "kitty", NULL };
 /* If you use pulsaudio add somewhere in your constants definition section instead. */
 //static const char *upvol[]      = { "/usr/bin/pactl",   "set-sink-volume", "@DEFAULT_SINK@",      "+5%",      NULL };
 //static const char *downvol[]    = { "/usr/bin/pactl",   "set-sink-volume", "@DEFAULT_SINK@",      "-5%",      NULL };
