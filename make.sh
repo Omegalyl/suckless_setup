@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # List of applications to build and install
-apps=("dwm" "st" "slstatus" "tabbed" "dmenu" "slock")
+apps=("dwm" "st" "slstatus" "dmenu" "slock")
 
 # Function to show usage
 show_usage() {
@@ -40,7 +40,7 @@ handle_error() {
 # Function to build and install an application
 build_install_app() {
     local app="$1"
-    echo "==> Building and installing $app..."
+    echo -e "\n\n==> Building and installing $app..."
     
     if [[ ! -d "$app" ]]; then
         handle_error "Directory '$app' not found"
@@ -57,13 +57,13 @@ build_install_app() {
         
         # Clean, build and install
         echo "    Cleaning previous build..."
-        sudo make clean >/dev/null || handle_error "Failed to clean $app"
+        make clean >/dev/null || handle_error "Failed to clean $app"
         
         echo "    Installing $app..."
         sudo make install >/dev/null || handle_error "Failed to install $app"
         
         echo "    Cleaning up..."
-        sudo make clean >/dev/null || handle_error "Failed to clean $app"
+        make clean >/dev/null || handle_error "Failed to clean $app"
         
         echo "    Successfully installed $app"
     )
