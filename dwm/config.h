@@ -122,6 +122,8 @@ static const Key keys[] = {
 	/* dmenu scripts */
 	{ MODKEY|ShiftMask,             XK_x,      spawn, SHCMD("powermenu") },
 	{ MODKEY|ShiftMask,             XK_n,      spawn, SHCMD("wifimenu") },
+	{ MODKEY|ShiftMask,             XK_b,      spawn, SHCMD("blueman") },
+	{ MODKEY|ShiftMask,             XK_o,      spawn, SHCMD("kitty -e notes") },
 };
 
 /* button definitions */

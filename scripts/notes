@@ -1,0 +1,60 @@
+#!/bin/bash
+
+# Daily Notes Manager
+# Opens today's note file (DD-MM-YYYY.md) or creates one from latest note
+
+set -e
+
+NOTES_DIR="${NOTES_DIR:-$HOME/notes}"
+TODAY=$(date +%Y-%m-%d)
+TODAY_NOTE="$NOTES_DIR/$TODAY.md"
+
+# Create notes directory if it doesn't exist
+if [ ! -d "$NOTES_DIR" ]; then
+    echo "📁 Creating notes directory: $NOTES_DIR"
+    mkdir -p "$NOTES_DIR"
+fi
+
+# Check if today's note already exists
+if [ -f "$TODAY_NOTE" ]; then
+    echo "📝 Opening existing note: $TODAY.md"
+    vim "$TODAY_NOTE"
+    exit 0
+fi
+
+# Today's note doesn't exist, need to create it
+echo "📝 Creating new note for: $TODAY"
+
+# Find the latest note file to copy
+LATEST_NOTE=$(find "$NOTES_DIR" -name "*.md" -not -name ".*" -type f | sort -r | head -1)
+
+if [ -n "$LATEST_NOTE" ] && [ -f "$LATEST_NOTE" ]; then
+    LATEST_NAME=$(basename "$LATEST_NOTE")
+    echo "📄 Using latest note as template: $LATEST_NAME"
+    cp "$LATEST_NOTE" "$TODAY_NOTE"
+else
+    # No existing notes, create a basic template
+    echo "📄 Creating basic note template"
+    cat > "$TODAY_NOTE" << 'EOF'
+# Tasks
+<!-- Daily tasks and TODO items -->
+
+# Quick Notes
+<!-- Meeting notes, observations, quick thoughts -->
+
+# Learning Goals
+<!-- Learning objectives and progress -->
+
+# R&D
+<!-- Research and development notes -->
+EOF
+fi
+
+# Set proper permissions
+chmod 600 "$TODAY_NOTE"
+
+echo "✅ Created: $TODAY_NOTE"
+echo "🚀 Opening with vim..."
+
+# Open the new note with vim
+vim "$TODAY_NOTE"
