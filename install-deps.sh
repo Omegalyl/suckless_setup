@@ -6,8 +6,8 @@ echo "==> Installing build dependencies..."
 sudo pacman -S --needed base-devel libx11 libxft libxinerama fontconfig \
     libxext libxrandr alsa-lib xorg-server xorg-xinit
 
-echo -e "\n==> Installing core tools..."
-sudo pacman -S --needed kitty dunst picom feh scrot brightnessctl xclip \
+echo -e "\n==> Installing display manager & core tools..."
+sudo pacman -S --needed ly xorg-xauth kitty dunst picom feh scrot brightnessctl xclip \
     wireplumber libnotify bc
 
 echo -e "\n==> Installing networking..."

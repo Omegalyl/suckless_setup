@@ -1,3 +1,5 @@
+#!/bin/sh
+
 picom -b
 feh --no-fehbg --bg-fill ~/fehbg &
 slstatus &

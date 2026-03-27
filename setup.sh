@@ -19,6 +19,8 @@ echo -e "\n[2/5] Building suckless tools (dwm, slstatus, dmenu, slock)..."
 
 # Step 3: Enable services
 echo -e "\n[3/5] Enabling system services..."
+sudo systemctl enable ly@tty2 2>/dev/null || echo "    ly service not available, skipping"
+sudo systemctl disable getty@tty2 2>/dev/null || true
 sudo systemctl enable --now bluetooth 2>/dev/null || echo "    bluetooth service not available, skipping"
 sudo systemctl enable --now iwd 2>/dev/null || echo "    iwd service not available, skipping"
 
@@ -39,10 +41,11 @@ echo "    - Configs: .xinitrc, .vimrc, dunstrc"
 echo "    - Scripts: volcatctl, powermenu, wifimenu,"
 echo "              bt, scrot-s, resource_usage"
 echo ""
-echo "  To start the desktop:"
-echo "    startx"
+echo "  Login manager:"
+echo "    ly (TUI) is enabled on tty2 — reboot to use"
+echo "    Select 'xinitrc' as session and login"
 echo ""
-echo "  To auto-start on login, add to ~/.bash_profile:"
+echo "  Alternatively, add to ~/.bash_profile for auto-startx:"
 echo "    if [[ -z \"\$DISPLAY\" ]] && [[ \"\$XDG_VTNR\" -eq 1 ]]; then"
 echo "        exec startx"
 echo "    fi"
