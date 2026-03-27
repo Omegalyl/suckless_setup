@@ -1,63 +1,28 @@
 # Dependencies
 
-This document lists the external packages required for the complete suckless setup.
+Run `./scripts/install-deps` to install everything, or install manually below.
 
-## Required Packages
+## Required Packages (Arch Linux)
+
+### Build Dependencies
+- **base-devel** - Compiler toolchain
+- **libx11, libxft, libxinerama** - X11 libraries for suckless tools
+- **xorg-server, xorg-xinit** - X display server
 
 ### Core System
-- **kitty** - Modern, GPU-accelerated terminal emulator (replaces st)
-- **dunst** - Lightweight notification daemon
-- **xcompmgr** - X11 compositor for transparency and effects
+- **kitty** - Terminal emulator
+- **dunst** - Notification daemon
+- **picom** - Compositor (transparency, no-tearing)
+- **feh** - Wallpaper setter
+- **scrot** - Screenshots
+- **brightnessctl** - Backlight control
+- **xclip** - Clipboard manager
 
-### Display & Media
-- **feh** - Wallpaper setter and image viewer
-- **scrot** - Screenshot utility
-
-### Audio & System Control
-- **easyeffects** - Audio effects and enhancement
-- **pavucontrol** - PulseAudio volume control GUI
-- **bluez** - Bluetooth stack (includes bluetoothctl)
-
+### Audio & Bluetooth
+- **easyeffects** - Audio effects
+- **pavucontrol** - Volume control GUI
+- **bluez, bluez-utils** - Bluetooth stack
 
 ### Applications (Optional)
 - **firefox** - Web browser
-- **code** - Visual Studio Code editor
-
-## Installation Commands
-
-### Arch Linux / Arch-based distros:
-```bash
-# Core system packages
-sudo pacman -S kitty dunst xcompmgr feh scrot
-
-# Audio & Bluetooth
-sudo pacman -S easyeffects pavucontrol bluez bluez-utils
-
-# Development tools
-sudo pacman -S base-devel python python-pip gcc vim
-
-# Optional applications
-sudo pacman -S firefox code
-```
-
-## Configuration Files
-
-- **kitty**: `~/.config/kitty/kitty.conf` (themes in `~/.config/kitty/themes/`)
-- **dunst**: `config/dunstrc` → copy to `~/.config/dunst/dunstrc`
-- **vim**: `config/.vimrc` → copy to `~/.vimrc`
-- **xinitrc**: `config/.xinitrc` → copy to `~/.xinitrc`
-
-## Scripts
-
-- **bt**: `scripts/bt` - Bluetooth device management script
-- **resource_usage**: `scripts/resource_usage` - System resource monitoring
-- **scrot-s**: `scripts/scrot-s` - Screenshot with selection
-
-## Integration with dwm
-
-The `dwm/config.def.h` has been updated to use `kitty` as the default terminal:
-```c
-static const char *termcmd[] = { "kitty", NULL };
-```
-
-To use these tools with dwm, ensure they're installed before building and using the window manager setup.
+- **code** - Visual Studio Code
