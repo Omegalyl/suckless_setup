@@ -68,20 +68,7 @@ static const Layout layouts[] = {
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL };
 static const char *termcmd[]  = { "kitty", NULL };
-/* If you use pulsaudio add somewhere in your constants definition section instead. */
-//static const char *upvol[]      = { "/usr/bin/pactl",   "set-sink-volume", "@DEFAULT_SINK@",      "+5%",      NULL };
-//static const char *downvol[]    = { "/usr/bin/pactl",   "set-sink-volume", "@DEFAULT_SINK@",      "-5%",      NULL };
-//static const char *mutevol[]    = { "/usr/bin/pactl",   "set-sink-mute",   "@DEFAULT_SINK@",      "toggle",   NULL };
-
-
-static const char *upvol[]      = { "/usr/bin/wpctl", "set-volume", "@DEFAULT_SINK@", "0.05+", "--limit=1.0", NULL };
-static const char *downvol[]    = { "/usr/bin/wpctl",   "set-volume", "@DEFAULT_SINK@",      "0.05-",      NULL };
-static const char *mutevol[]    = { "/usr/bin/wpctl",   "set-mute",   "@DEFAULT_SINK@",      "toggle",   NULL };
-
-// /* If you use amixer, use this instead. Thanks go to DaniOrt3ga. */
-// static const char *upvol[]      = { "/usr/bin/amixer",  "set", "Master", "5%+", NULL };
-// static const char *downvol[]    = { "/usr/bin/amixer",  "set", "Master", "5%-", NULL };
-// static const char *mutevol[]    = { "/usr/bin/amixer", "set", "Master", "toggle", NULL };
+/* volume control with pop cat indicator */
 
 static const Key keys[] = {
 	/* modifier                     key        function        argument */
@@ -116,12 +103,12 @@ static const Key keys[] = {
 	TAGKEYS(                        XK_6,                      5)
 	TAGKEYS(                        XK_7,                      6)
 	{ MODKEY|ShiftMask,             XK_q,      quit,           {0} },
-	{ 0,                       XF86XK_AudioLowerVolume, spawn, {.v = downvol } },
-	{ 0,                       XF86XK_AudioMute, spawn, {.v = mutevol } },
-	{ 0,                       XF86XK_AudioRaiseVolume, spawn, {.v = upvol   } },
-	{ MODKEY,                       XK_F11, spawn, {.v = downvol } },
-	{ MODKEY,                       XK_F9,  spawn, {.v = mutevol } },
-	{ MODKEY,                       XK_F12, spawn, {.v = upvol   } },
+	{ 0,                       XF86XK_AudioRaiseVolume, spawn, SHCMD("volcatctl up") },
+	{ 0,                       XF86XK_AudioLowerVolume, spawn, SHCMD("volcatctl down") },
+	{ 0,                       XF86XK_AudioMute,        spawn, SHCMD("volcatctl mute") },
+	{ MODKEY,                       XK_F12, spawn, SHCMD("volcatctl up") },
+	{ MODKEY,                       XK_F11, spawn, SHCMD("volcatctl down") },
+	{ MODKEY,                       XK_F9,  spawn, SHCMD("volcatctl mute") },
 	{ 0, XF86XK_MonBrightnessUp,   spawn, SHCMD("brightnessctl set +10%") },
 	{ 0, XF86XK_MonBrightnessDown, spawn, SHCMD("brightnessctl set 10%-") },
 	/* screen lock */

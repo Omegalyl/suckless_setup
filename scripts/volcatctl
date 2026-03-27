@@ -1,0 +1,61 @@
+#!/bin/sh
+
+# Pop Cat Volume Indicator for dwm + dunst
+# Usage: volcatctl up | down | mute
+
+ASSETS="$HOME/suckless_setup/assets"
+NOTIFY_ID=9999
+
+# Adjust volume
+case "$1" in
+    up)
+        wpctl set-mute @DEFAULT_SINK@ 0
+        wpctl set-volume @DEFAULT_SINK@ 0.05+ --limit=1.5
+        ;;
+    down)
+        wpctl set-mute @DEFAULT_SINK@ 0
+        wpctl set-volume @DEFAULT_SINK@ 0.05-
+        ;;
+    mute)
+        wpctl set-mute @DEFAULT_SINK@ toggle
+        ;;
+    *)
+        echo "Usage: volcatctl up|down|mute"; exit 1
+        ;;
+esac 2>/dev/null
+
+# Get current volume and mute status
+INFO=$(wpctl get-volume @DEFAULT_SINK@ 2>/dev/null)
+VOL=$(echo "$INFO" | awk '{printf "%d", $2 * 100}')
+MUTED=$(echo "$INFO" | grep -c MUTED)
+
+# Pick cat image based on state
+if [ "$MUTED" -eq 1 ] || [ "$VOL" -eq 0 ]; then
+    ICON="$ASSETS/audio-volume-muted-symbolic.svg"
+    LABEL="Muted"
+elif [ "$VOL" -le 30 ]; then
+    ICON="$ASSETS/audio-volume-low-symbolic.svg"
+    LABEL="Vol: ${VOL}%"
+elif [ "$VOL" -le 70 ]; then
+    ICON="$ASSETS/audio-volume-medium-symbolic.svg"
+    LABEL="Vol: ${VOL}%"
+elif [ "$VOL" -le 100 ]; then
+    ICON="$ASSETS/audio-volume-high-symbolic.svg"
+    LABEL="Vol: ${VOL}%"
+else
+    ICON="$ASSETS/audio-volume-overamplified-symbolic.svg"
+    LABEL="Vol: ${VOL}%"
+fi
+
+# Use dunst progress bar hint and stack tag for rule matching
+if [ "$MUTED" -eq 1 ]; then
+    dunstify -r "$NOTIFY_ID" -t 1500 -u normal \
+        -h string:x-dunst-stack-tag:volume \
+        -h int:value:0 \
+        -i "$ICON" "$LABEL"
+else
+    dunstify -r "$NOTIFY_ID" -t 1500 -u normal \
+        -h string:x-dunst-stack-tag:volume \
+        -h int:value:"$VOL" \
+        -i "$ICON" "$LABEL"
+fi
