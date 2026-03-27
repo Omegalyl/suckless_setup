@@ -49,12 +49,6 @@ build_install_app() {
     (
         cd "$app" || handle_error "Failed to enter $app directory"
         
-        # Remove config.h if it exists
-        if [[ -f config.h ]]; then
-            echo "    Removing existing config.h"
-            rm -f config.h || handle_error "Failed to remove config.h"
-        fi
-        
         # Clean, build and install
         echo "    Cleaning previous build..."
         make clean >/dev/null || handle_error "Failed to clean $app"

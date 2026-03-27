@@ -121,6 +121,8 @@ static const Key keys[] = {
 	{ MODKEY,                       XK_F11, spawn, {.v = downvol } },
 	{ MODKEY,                       XK_F9,  spawn, {.v = mutevol } },
 	{ MODKEY,                       XK_F12, spawn, {.v = upvol   } },
+	{ 0, XF86XK_MonBrightnessUp,   spawn, SHCMD("brightnessctl set +10%") },
+	{ 0, XF86XK_MonBrightnessDown, spawn, SHCMD("brightnessctl set 10%-") },
 };
 
 /* button definitions */
