@@ -65,14 +65,15 @@ static const char unknown_str[] = "n/a";
  */
 static const struct arg args[] = {
 	/* function format          argument */
-	{ datetime, "Date: %s", "%a %b %d - %r" },
-  	{ battery_perc, " | BAT: %s%%", "BAT0"},
-	{ cpu_freq, " | CPU: %sHz", ""},
- 	{ ram_perc, " | RAM: %s%%", ""},
- 	{ temp, " | TEMP: %s°C", "/sys/class/thermal/thermal_zone11/temp"},
- 	//{ wifi_essid, " | WiFi: %s", "wlan0"},
- 	//{ wifi_perc, " %s%%", "wlan0"},
-	{ netspeed_tx, " | NET: %sB/s↑", "wlan0"},
-	{ netspeed_rx, " %sB/s↓", "wlan0"},
- 	{ vol_perc, " | Vol: %s%%", "Master"},
+	{ uptime,            "UP: %s",          NULL },
+	{ disk_perc,         " | DISK: %s%%",   "/" },
+	{ cpu_perc,          " | CPU: %s%%",    NULL },
+	{ cpu_freq,          " %sHz",           "" },
+	{ temp,              " %s°C",           "/sys/class/thermal/thermal_zone11/temp" },
+	{ ram_perc,          " | RAM: %s%%",    NULL },
+	{ battery_perc,      " | BAT: %s%%",   "BAT0" },
+	{ battery_remaining, " (%s)",           "BAT0" },
+	{ run_command,       " | NET: %s",      "netspeed wlan0" },
+	{ vol_perc,          " | Vol: %s%%",    "Master" },
+	{ datetime,          " | %s",           "%a %b %d - %r" },
 };

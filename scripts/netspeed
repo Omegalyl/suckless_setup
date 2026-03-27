@@ -1,0 +1,25 @@
+#!/bin/sh
+# Average network speed over 3 seconds for wlan0
+IFACE="${1:-wlan0}"
+
+RX1=$(cat /sys/class/net/$IFACE/statistics/rx_bytes)
+TX1=$(cat /sys/class/net/$IFACE/statistics/tx_bytes)
+sleep 3
+RX2=$(cat /sys/class/net/$IFACE/statistics/rx_bytes)
+TX2=$(cat /sys/class/net/$IFACE/statistics/tx_bytes)
+
+RX=$(( (RX2 - RX1) / 3 ))
+TX=$(( (TX2 - TX1) / 3 ))
+
+# Human readable
+to_human() {
+    if [ "$1" -ge 1048576 ]; then
+        printf "%.1fM" "$(echo "$1 / 1048576" | bc -l)"
+    elif [ "$1" -ge 1024 ]; then
+        printf "%.0fK" "$(echo "$1 / 1024" | bc -l)"
+    else
+        printf "%dB" "$1"
+    fi
+}
+
+printf "%s↑ %s↓" "$(to_human $TX)" "$(to_human $RX)"

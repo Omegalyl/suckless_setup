@@ -9,14 +9,16 @@ show_usage() {
     echo "Build and install suckless tools."
     echo
     echo "Options:"
-    echo "  all         Build and install all applications"
+    echo "  all         Build all applications and install configs"
+    echo "  configs     Install dotfiles and scripts only"
     echo "  app_name    Build specific application(s)"
     echo
     echo "Available applications:"
     printf "  %s\n" "${apps[@]}"
     echo
     echo "Examples:"
-    echo "  $0 all          # Build all applications"
+    echo "  $0 all          # Build all apps and install configs"
+    echo "  $0 configs      # Install dotfiles and scripts only"
     echo "  $0 dwm st       # Build only dwm and st"
     echo
 }
@@ -25,7 +27,7 @@ show_usage() {
 validate_apps() {
     local app
     for app in "$@"; do
-        if [[ "$app" != "all" ]] && [[ ! " ${apps[@]} " =~ " ${app} " ]]; then
+        if [[ "$app" != "all" ]] && [[ "$app" != "configs" ]] && [[ ! " ${apps[@]} " =~ " ${app} " ]]; then
             handle_error "Invalid application: $app"
         fi
     done
@@ -35,6 +37,36 @@ validate_apps() {
 handle_error() {
     echo "Error: $1" >&2
     exit 1
+}
+
+# Function to install dotfiles and scripts
+install_configs() {
+    echo -e "\n\n==> Installing dotfiles..."
+
+    # Dotfiles: config/.filename -> ~/
+    for dotfile in config/.*; do
+        [[ "$(basename "$dotfile")" == "." || "$(basename "$dotfile")" == ".." ]] && continue
+        cp -v "$dotfile" ~/
+    done
+
+    # Regular config files: config/filename -> ~/.config/filename
+    for conf in config/*; do
+        [[ -f "$conf" ]] || continue
+        mkdir -p ~/.config
+        cp -v "$conf" ~/.config/
+    done
+
+    echo "    Dotfiles installed."
+
+    # Scripts -> ~/bin/
+    echo -e "\n==> Installing scripts..."
+    mkdir -p ~/bin
+    for script in scripts/*; do
+        [[ -f "$script" ]] || continue
+        cp -v "$script" ~/bin/
+        chmod +x ~/bin/"$(basename "$script")"
+    done
+    echo "    Scripts installed to ~/bin/"
 }
 
 # Function to build and install an application
@@ -78,7 +110,10 @@ if [ "$1" = "all" ]; then
     for app in "${apps[@]}"; do
         build_install_app "$app"
     done
-    echo "All applications installed successfully!"
+    install_configs
+    echo "All applications and configs installed successfully!"
+elif [ "$1" = "configs" ]; then
+    install_configs
 else
     for app in "$@"; do
         build_install_app "$app"

@@ -32,7 +32,8 @@ static const Rule rules[] = {
 	 *	WM_NAME(STRING) = title
 	 */
 	/* class        instance    title       tags mask     isfloating   monitor */
-	{ "firefox",    NULL,       NULL,       0,	      	  0,	  -1 },
+	{ "firefox",    NULL,       NULL,       0,             0,	  -1 },
+	{ "Code",       NULL,       NULL,       0,             0,	  -1 },
 	{ "work-term",  NULL,       NULL,       1 << 2,	      0,	   1 },
 	{ "Gimp",       NULL,       NULL,       1 << 3,       0,	  -1 },
 	{ "easyeffects",NULL,       NULL,       1 << 5,       0,	  -1 },
@@ -123,6 +124,17 @@ static const Key keys[] = {
 	{ MODKEY,                       XK_F12, spawn, {.v = upvol   } },
 	{ 0, XF86XK_MonBrightnessUp,   spawn, SHCMD("brightnessctl set +10%") },
 	{ 0, XF86XK_MonBrightnessDown, spawn, SHCMD("brightnessctl set 10%-") },
+	/* screen lock */
+	{ MODKEY|ShiftMask,             XK_l,      spawn, SHCMD("slock") },
+	/* screenshots */
+	{ 0,                            XK_Print,  spawn, SHCMD("scrot ~/Pictures/screenshot-%Y%m%d-%H%M%S.png") },
+	{ MODKEY|ShiftMask,             XK_s,      spawn, SHCMD("scrot -s ~/Pictures/screenshot-%Y%m%d-%H%M%S.png") },
+	/* app shortcuts */
+	{ MODKEY|ShiftMask,             XK_w,      spawn, SHCMD("firefox") },
+	{ MODKEY|ShiftMask,             XK_e,      spawn, SHCMD("code") },
+	/* dmenu scripts */
+	{ MODKEY|ShiftMask,             XK_x,      spawn, SHCMD("powermenu") },
+	{ MODKEY|ShiftMask,             XK_n,      spawn, SHCMD("wifimenu") },
 };
 
 /* button definitions */

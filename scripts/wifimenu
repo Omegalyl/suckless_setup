@@ -1,0 +1,25 @@
+#!/bin/sh
+
+# Get wifi device
+DEV=$(iwctl device list | awk '/station/{print $2; exit}')
+[ -z "$DEV" ] && DEV="wlan0"
+
+# Scan and list networks
+iwctl station "$DEV" scan
+sleep 1
+networks=$(iwctl station "$DEV" get-networks | tail -n +5 | sed 's/\x1b\[[0-9;]*m//g' | awk '{print $1}' | grep -v '^$' | sort -u)
+
+chosen=$(echo "$networks" | dmenu -i -p "WiFi:")
+[ -z "$chosen" ] && exit
+
+# Check if known network
+if iwctl known-networks list | grep -q "$chosen"; then
+    iwctl station "$DEV" connect "$chosen" && notify-send "WiFi" "Connected to $chosen"
+else
+    pass=$(echo "" | dmenu -p "Password:" -P 2>/dev/null || echo "" | dmenu -p "Password:")
+    if [ -n "$pass" ]; then
+        iwctl --passphrase "$pass" station "$DEV" connect "$chosen" && notify-send "WiFi" "Connected to $chosen"
+    else
+        iwctl station "$DEV" connect "$chosen" && notify-send "WiFi" "Connected to $chosen"
+    fi
+fi

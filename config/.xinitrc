@@ -1,11 +1,11 @@
-exec xcompmgr &
-exec feh --no-fehbg --bg-fill ~/fehbg &
-exec slstatus &
-exec dunst &
+picom -b
+feh --no-fehbg --bg-fill ~/fehbg &
+slstatus &
+dunst &
 
-exec firefox &
-exec easyeffects &
-exec pavucontrol &
-exec code ~/workspace &
+firefox &
+easyeffects &
+pavucontrol &
+blueman-applet &
 
-exec dwm 
+exec dwm
