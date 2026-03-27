@@ -29,7 +29,7 @@
 
     # The height of a single notification, excluding the frame.
     # dynamic height from 0 to 300
-    height = (0, 100)
+    height = (0, 300)
     # constant height of 300
     # height = 300
     # NOTE: Dunst from version 1.11 and older don't support dynamic height
@@ -497,11 +497,8 @@
     stack_tag = "volume"
     min_icon_size = 64
     max_icon_size = 96
-    width = 400
     alignment = center
-    origin = top-center
-    offset = (0, 50)
-    hide_text = true
+    icon_position = top
     history_ignore = true
 
 # vim: ft=cfg

@@ -115,7 +115,7 @@ static const Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_l,      spawn, SHCMD("slock") },
 	/* screenshots */
 	{ 0,                            XK_Print,  spawn, SHCMD("scrot ~/Pictures/screenshot-%Y%m%d-%H%M%S.png") },
-	{ MODKEY|ShiftMask,             XK_s,      spawn, SHCMD("scrot -s ~/Pictures/screenshot-%Y%m%d-%H%M%S.png") },
+	{ MODKEY|ShiftMask,             XK_s,      spawn, SHCMD("scrot-s") },
 	/* app shortcuts */
 	{ MODKEY|ShiftMask,             XK_w,      spawn, SHCMD("firefox") },
 	{ MODKEY|ShiftMask,             XK_e,      spawn, SHCMD("code") },

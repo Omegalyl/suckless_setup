@@ -49,12 +49,11 @@ install_configs() {
         cp -v "$dotfile" ~/
     done
 
-    # Regular config files: config/filename -> ~/.config/filename
-    for conf in config/*; do
-        [[ -f "$conf" ]] || continue
-        mkdir -p ~/.config
-        cp -v "$conf" ~/.config/
-    done
+    # dunstrc -> ~/.config/dunst/dunstrc
+    if [[ -f config/dunstrc ]]; then
+        mkdir -p ~/.config/dunst
+        cp -v config/dunstrc ~/.config/dunst/dunstrc
+    fi
 
     echo "    Dotfiles installed."
 
