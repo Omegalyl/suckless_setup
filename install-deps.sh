@@ -8,7 +8,7 @@ sudo pacman -S --needed base-devel libx11 libxft libxinerama fontconfig \
 
 echo -e "\n==> Installing display manager & core tools..."
 sudo pacman -S --needed ly xorg-xauth kitty dunst picom feh scrot brightnessctl xclip \
-    wireplumber libnotify bc
+    wireplumber libnotify bc bash-completion
 
 echo -e "\n==> Installing networking..."
 sudo pacman -S --needed iwd

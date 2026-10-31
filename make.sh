@@ -55,6 +55,10 @@ install_configs() {
         cp -v config/dunstrc ~/.config/dunst/dunstrc
     fi
 
+    # ly writes its X session log to ~/.local/state/ly-session.log and the
+    # session fails instantly if that directory is missing (fresh installs)
+    mkdir -p ~/.local/state
+
     echo "    Dotfiles installed."
 
     # Scripts -> ~/bin/
